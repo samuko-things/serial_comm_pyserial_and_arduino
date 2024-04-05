@@ -7,47 +7,6 @@ void delayMs(int ms) {
 //////////////////////////////////////////////////
 
 
-
-
-////////// motor bridge control ////////////
-#include "motor_bridge_control.h"
-// motor A H-Bridge Connection
-int IN1 = 7, IN2 = 8, enA = 5;
-MotorControl motorA(IN1, IN2, enA);
-
-// motor B H-Bridge Connection
-int IN3 = 11, IN4 = 12, enB = 6;
-MotorControl motorB(IN3, IN4, enB);
-/////////////////////////////////////////////
-
-
-
-
-void initLed(){
-  pinMode(LED_BUILTIN, OUTPUT);
-}
-
-void onLed(){
-  digitalWrite(LED_BUILTIN, HIGH);
-}
-
-void offLed(){
-  digitalWrite(LED_BUILTIN, LOW);
-}
-
-
-
-
-int readSonarDist(){
-  // enter your sonar reading function here
-  return 253;
-}
-
-
-
-
-
-
 //////////////////////////////////////
 #include "serial_comm.h"
 //////////////////////////////////////
@@ -65,10 +24,6 @@ void setup() {
   Serial.begin(115200);// NOTE THIS BAUD RATE
   Serial.setTimeout(2);// DO NOT TOUCH
 
-  /*SAMPLE OF SENDING PWM TO THE MOTORS VIA L298N HBRIDGE*/
-  //  motorA.sendPWM(-100); // REVERSE
-  //  motorB.sendPWM(100);  // FORWARD
-
   initLed(); // initialize built in led
   
   prevSerialCommTime = millis();
@@ -84,7 +39,6 @@ void loop() {
     prevSerialCommTime = millis();
   }
 /////////////////////////////////////////////////////////////////////
-
 
 
 /////////////////// YOU CAN PUT YOUR CODES BELOW ////////////////////
