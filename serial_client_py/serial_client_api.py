@@ -1,20 +1,11 @@
 
 import serial
 import time
-import math
 
 class MySerialClient:
   
-  def __init__(self, port):
-    self.ser = serial.Serial(port, 115200, timeout=0.1)
-    self.val = 0
-
-  # def send_msg(self, msg_to_send):
-  #   data = ""
-  #   while data=="":
-  #     self.ser.write(msg_to_send.encode())   # send a single or multiple byte
-  #     data = self.ser.readline().decode().strip()
-  #   return data
+  def __init__(self, port, baud=115200, timeOut=0.1):
+    self.ser = serial.Serial(port, baud, timeout=timeOut)
 
   def send_msg(self, msg_to_send):
     data = ""
@@ -24,14 +15,14 @@ class MySerialClient:
         self.ser.write(msg_to_send.encode())   # send a single or multiple byte    
         data = self.ser.readline().decode().strip()
         if time.time()-prev_time > 2.0:
-          raise Exception("Error getting response from arduino, wasted much time \n")
+          raise Exception("Error getting response from arduino nano, wasted much time \n")
       except:
-        print("Error getting response from arduino, wasted much time \n")
+        raise Exception("Error getting response from arduino nano, wasted much time \n")
     return data
 
   
-  def send(self, cmd_route, valA=0, valB=0):
-    cmd_str = cmd_route+","+str(valA)+","+str(valB)
+  def send(self, cmd_route, val1=0, val2=0, val3=0):
+    cmd_str = cmd_route+","+str(val1)+","+str(val2)+","+str(val3)
     data = self.send_msg(cmd_str)
     if data == "1":
       return True
@@ -41,43 +32,11 @@ class MySerialClient:
   
   def get(self, cmd_route):
     data = self.send_msg(cmd_route).split(',')
+    # return float(data[0]), float(data[1]), float(data[2])
     if len(data)==1:
-      return int(data[0])
-    elif len(data)==2:
-      return int(data[0]), int(data[1])
+      return float(data[0])
+    elif len(data)==3:
+      return float(data[0]), float(data[1]), float(data[2])
+    elif len(data)==4:
+      return float(data[0]), float(data[1]), float(data[2]), float(data[3])
   
-  
-
-
-serClient = MySerialClient('/dev/ttyUSB0')
-time.sleep(5) # wait 5 sec
-
-
-
-###### TURN ON AND OFF LED #######
-if __name__=='__main__':
-  while True:
-    isSuccess = serClient.send("on") # returns true or false to check if operation was successfull or not
-    print(isSuccess)
-    time.sleep(1)
-    isSuccess = serClient.send("off") # returns true or false to check if operation was successfull or not
-    print(isSuccess)
-    time.sleep(1)
-
-
-
-# ###### read test sonar dist #######
-# if __name__=='__main__':
-#   while True:
-#     sonarDist = serClient.get("dist")
-#     print(sonarDist)
-#     time.sleep(0.01) #10 ms delay
-
-
-# ###### WRITE MOTOR PWM #######
-# if __name__=='__main__':
-#   while True:
-#     # isSuccess = serClient.send("pwm", 120, -120) # sends to left and write motor
-#     # time.sleep(5)
-#     isSuccess = serClient.send("pwmA", -75) # sends pwm commans to motor labelled A
-#     time.sleep(2)
