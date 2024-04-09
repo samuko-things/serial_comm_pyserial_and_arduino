@@ -35,6 +35,8 @@ class MySerialClient:
     # return float(data[0]), float(data[1]), float(data[2])
     if len(data)==1:
       return float(data[0])
+    elif len(data)==2:
+      return float(data[0]), float(data[1])
     elif len(data)==3:
       return float(data[0]), float(data[1]), float(data[2])
     elif len(data)==4:
