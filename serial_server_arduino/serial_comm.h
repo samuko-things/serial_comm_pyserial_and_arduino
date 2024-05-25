@@ -210,14 +210,14 @@ void serialReceiveAndSendData() {
 
       //// you can add functions in the if else part so it can be handled by the serial communication ////
       
-      if (serDataBuffer[0] == "led") {
+      if (serDataBuffer[0] == "/led-state") {
         if (serDataBuffer[1]=="") ser_msg = sendLedState();
         else ser_msg = setLedState(serDataBuffer[1].toInt());
         Serial.println(ser_msg);
         ser_msg = "";
       }
 
-      else if (serDataBuffer[0] == "sine") {
+      else if (serDataBuffer[0] == "/sine") {
         ser_msg = sendSineSignal();
         Serial.println(ser_msg);
         ser_msg = "";

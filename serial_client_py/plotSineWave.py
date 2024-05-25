@@ -9,7 +9,7 @@ if __name__=='__main__':
   while True:
 
     #---------------------- READ CUSTOM SINE DATA ----------------------------#
-    sineSignal = serClient.get("sine") # return custom sign signal value
+    sineSignal = serClient.get("/sine") # return custom sign signal value
     print(sineSignal)
     time.sleep(0.05)
     #-------------------------------------------------------------------------#
@@ -32,7 +32,7 @@ if __name__=='__main__':
 # def animate(i):
 #     global serClient, axes, sineSignalList, pitchDataList, yawDataList, dataPoints
 
-#     sineSignal = serClient.get("sine") # return the current sine wave value
+#     sineSignal = serClient.get("/sine") # return the current sine wave value
     
 #     sineSignalList.append(sineSignal)
 
